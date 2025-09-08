@@ -31,7 +31,7 @@ module "cuenta_almacenamiento" {
 
   # Crea un contenedor dentro de la cuenta de almacenamiento
   containers = {
-    "${local.nombre_cuenta_almacenamiento}" = {
+    (local.nombre_cuenta_almacenamiento) = {
       name = local.nombre_cuenta_almacenamiento
     }
   }
