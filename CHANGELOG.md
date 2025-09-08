@@ -5,6 +5,12 @@ Todos los cambios notables de este proyecto serán documentados en este archivo.
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 y este proyecto se adhiere al [versionado semántico](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.1] - 2025-09-08
+
+### Cambiado
+- **Estandarización de comentarios**: Actualizados todos los comentarios y descripciones en `variables.tf` y `outputs.tf` para incluir punto final, manteniendo consistencia con los mensajes de error de validación
+- **Mejora en la documentación**: Normalización del formato de comentarios tanto en comentarios de archivo como en descripciones de variables y outputs
+
 ## [1.0.0] - 2025-09-08
 
 ### Agregado
@@ -51,4 +57,5 @@ y este proyecto se adhiere al [versionado semántico](https://semver.org/spec/v2
 - Máquina Virtual Linux con conectividad de red (opcional)
 - Estrategia consistente de nomenclatura y etiquetado de recursos
 
+[1.0.1]: https://github.com/nicosingh/terraform-azurerm-duoc-iac-sep-25/releases/tag/v1.0.1
 [1.0.0]: https://github.com/nicosingh/terraform-azurerm-duoc-iac-sep-25/releases/tag/v1.0.0
