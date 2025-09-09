@@ -55,17 +55,26 @@ jobs:
 
       - name: Terraform docs
         run: |
-          # Generar la documentación en un archivo temporal para comparar
-          terraform-docs markdown table --output-mode inject . > /tmp/expected_readme.md
-          if ! diff -q README.md /tmp/expected_readme.md > /dev/null; then
+          # Crear una copia temporal del README actual
+          cp README.md /tmp/readme_backup.md
+
+          # Generar la documentación actualizada en el README
+          terraform-docs markdown table --output-file README.md --output-mode inject .
+
+          # Verificar si hubo cambios solo en la sección de terraform-docs
+          if ! diff -q README.md /tmp/readme_backup.md > /dev/null; then
             echo "❌ Documentation is out of date!"
             echo "Please run 'terraform-docs markdown table --output-file README.md --output-mode inject .' locally"
             echo ""
-            echo "Expected changes:"
-            diff README.md /tmp/expected_readme.md || true
+            echo "Changes needed in terraform-docs section:"
+            diff /tmp/readme_backup.md README.md || true
+            # Restaurar el archivo original
+            mv /tmp/readme_backup.md README.md
             exit 1
           else
             echo "✅ Documentation is up to date!"
+            # Limpiar archivo temporal
+            rm /tmp/readme_backup.md
           fi
 
       - name: Checkov
