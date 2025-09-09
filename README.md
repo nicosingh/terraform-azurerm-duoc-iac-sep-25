@@ -31,9 +31,9 @@ No providers.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_cuenta_almacenamiento"></a> [cuenta\_almacenamiento](#module\_cuenta\_almacenamiento) | Azure/avm-res-storage-storageaccount/azurerm | 0.6.4 |
-| <a name="module_maquina_virtual"></a> [maquina\_virtual](#module\_maquina\_virtual) | Azure/avm-res-compute-virtualmachine/azurerm | 0.18.1 |
-| <a name="module_red_virtual"></a> [red\_virtual](#module\_red\_virtual) | Azure/avm-res-network-virtualnetwork/azurerm | 0.10.0 |
+| <a name="module_cuenta_almacenamiento"></a> [cuenta\_almacenamiento](#module\_cuenta\_almacenamiento) | git::https://github.com/Azure/terraform-azurerm-avm-res-storage-storageaccount.git | 9d977b5d1a5412a2b79113cfdbcac457c8b5858c |
+| <a name="module_maquina_virtual"></a> [maquina\_virtual](#module\_maquina\_virtual) | git::https://github.com/Azure/terraform-azurerm-avm-res-compute-virtualmachine.git | c47eeb60116a6bd7a4073f96d6239f355e661f8e |
+| <a name="module_red_virtual"></a> [red\_virtual](#module\_red\_virtual) | git::https://github.com/Azure/terraform-azurerm-avm-res-network-virtualnetwork.git | 92d91187f566fc47313e1d54cda366a5acd3be55 |
 
 ## Resources
 

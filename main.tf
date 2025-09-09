@@ -4,8 +4,7 @@
 # Modulo para crear Red Virtual usando Azure Verified Module (AVM)
 # Crea una red virtual con las subredes especificadas
 module "red_virtual" {
-  source  = "Azure/avm-res-network-virtualnetwork/azurerm"
-  version = "0.10.0"
+  source = "git::https://github.com/Azure/terraform-azurerm-avm-res-network-virtualnetwork.git?ref=92d91187f566fc47313e1d54cda366a5acd3be55"
 
   address_space       = [var.bloque_red]
   location            = var.ubicacion
@@ -19,8 +18,7 @@ module "red_virtual" {
 module "cuenta_almacenamiento" {
   count = var.crear_cuenta_almacenamiento ? 1 : 0
 
-  source  = "Azure/avm-res-storage-storageaccount/azurerm"
-  version = "0.6.4"
+  source = "git::https://github.com/Azure/terraform-azurerm-avm-res-storage-storageaccount.git?ref=9d977b5d1a5412a2b79113cfdbcac457c8b5858c"
 
   location            = var.ubicacion
   name                = local.nombre_cuenta_almacenamiento
@@ -42,8 +40,7 @@ module "cuenta_almacenamiento" {
 module "maquina_virtual" {
   count = var.crear_maquina_virtual ? 1 : 0
 
-  source  = "Azure/avm-res-compute-virtualmachine/azurerm"
-  version = "0.18.1"
+  source = "git::https://github.com/Azure/terraform-azurerm-avm-res-compute-virtualmachine.git?ref=c47eeb60116a6bd7a4073f96d6239f355e661f8e"
 
   name                       = "${local.prefijo_recursos}-vm"
   resource_group_name        = var.nombre_grupo_recursos
