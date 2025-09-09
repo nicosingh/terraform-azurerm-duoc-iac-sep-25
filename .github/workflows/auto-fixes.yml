@@ -46,7 +46,7 @@ jobs:
           git commit -m "ci: auto-format terraform files"
           git push origin HEAD:${GITHUB_REF#refs/heads/}
 
-      - name: Run terraform-docs and upload any generated changes
+      - name: Run terraform-docs and push any generated changes to git
         uses: terraform-docs/gh-actions@v1.4.1
         with:
           working-dir: .
