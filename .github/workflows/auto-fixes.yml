@@ -53,3 +53,6 @@ jobs:
           output-file: README.md
           output-method: inject
           git-push: true
+          git-commit-message: "ci: update terraform-docs"
+          git-push-user-email: "41898282+github-actions[bot]@users.noreply.github.com"
+          git-push-user-name: "github-actions[bot]"
