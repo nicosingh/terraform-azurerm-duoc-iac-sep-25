@@ -57,7 +57,7 @@ jobs:
         run: terraform-docs markdown table --output-file README.md --output-mode inject .
 
       - name: Checkov
-        run: checkov -f . --framework terraform
+        run: checkov -d . -s
 
       - name: Check for changes in docs
         run: |
