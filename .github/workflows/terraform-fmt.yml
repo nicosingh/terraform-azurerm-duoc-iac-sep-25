@@ -25,14 +25,6 @@ jobs:
         with:
           tflint_version: latest
 
-      - name: Setup Python (for checkov)
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.x'
-
-      - name: Install Checkov
-        run: pip install checkov
-
       - name: Terraform fmt
         run: terraform fmt -check -recursive
 
@@ -46,13 +38,15 @@ jobs:
           terraform init -backend=false
           terraform validate
 
-      - name: Checkov GitHub Action
+      - name: Checkov
         uses: bridgecrewio/checkov-action@v12
         with:
           output_format: cli,sarif
           output_file_path: console,results.sarif
+          quiet: true
+          framework: terraform
 
-      - name: Upload SARIF file
+      - name: Upload Checkov results
         uses: github/codeql-action/upload-sarif@v2
         if: success() || failure()
         with:
