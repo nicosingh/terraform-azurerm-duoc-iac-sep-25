@@ -15,6 +15,25 @@ Componentes que despliega:
 
 Casos de uso: Ideal para entornos de desarrollo, staging o producción que requieren una infraestructura básica pero completa en Azure, con la flexibilidad de activar solo los componentes necesarios según el caso de uso específico.
 
+## Integración Continua (CI/CD)
+
+Este proyecto incluye dos pipelines de GitHub Actions que garantizan la calidad y mantenimiento automático del código:
+
+**Pipeline de Validaciones** (`validaciones.yml`):
+- Se ejecuta en cada push y pull request
+- Verifica el formato del código con `terraform fmt`
+- Ejecuta análisis estático con TFLint para detectar errores potenciales
+- Valida la sintaxis y configuración con `terraform validate`
+- Realiza análisis de seguridad y mejores prácticas con Checkov
+
+**Pipeline de Auto-fixes** (`auto-fixes.yml`):
+- Se ejecuta automáticamente en cada push y pull request
+- Formatea el código Terraform automáticamente
+- Genera y actualiza la documentación del módulo usando terraform-docs
+- Commitea automáticamente los cambios de formato y documentación
+
+Ambos pipelines utilizan Terraform 1.13.0 y se ejecutan en todas las ramas, asegurando consistencia y calidad en todo el ciclo de desarrollo.
+
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 

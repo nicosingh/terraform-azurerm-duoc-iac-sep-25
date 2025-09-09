@@ -1,8 +1,11 @@
 name: Auto-fixes Terraform
 
+# Configuración de cuándo se ejecuta este pipeline
 on:
+  # Se ejecuta cuando se hace push a cualquier rama ('**' significa todas las ramas)
   push:
     branches: ['**']
+  # Se ejecuta cuando se crea o actualiza un pull request hacia cualquier rama
   pull_request:
     branches: ['**']
 
@@ -14,20 +17,26 @@ jobs:
       contents: write
 
     steps:
+      # Descarga el código del repositorio con historial completo para poder hacer commits
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           fetch-depth: 0
 
+      # Instala Terraform en la versión especificada
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: "1.13.0"
 
+      # Formatea automáticamente todos los archivos Terraform
+      # Sin el flag -check, aplica los cambios directamente
       - name: Terraform fmt
         run: terraform fmt -recursive
 
+      # Verifica si el formateo cambió algún archivo
+      # Guarda el resultado en una variable de salida para usar en pasos siguientes
       - name: Terraform fmt - check if anything got changed
         id: verify-changed-files
         run: |
@@ -37,6 +46,8 @@ jobs:
             echo "changed=false" >> $GITHUB_OUTPUT
           fi
 
+      # Si hubo cambios en el formateo, los commitea automáticamente
+      # Solo se ejecuta si el paso anterior detectó cambios
       - name: Terraform fmt - push changed files to git
         if: steps.verify-changed-files.outputs.changed == 'true'
         run: |
@@ -46,6 +57,8 @@ jobs:
           git commit -m "ci: auto-format terraform files"
           git push origin HEAD:${GITHUB_REF#refs/heads/}
 
+      # Genera automáticamente documentación usando terraform-docs
+      # Actualiza el README.md con la documentación de variables y outputs
       - name: Run terraform-docs and push any generated changes to git
         uses: terraform-docs/gh-actions@v1.4.1
         with:

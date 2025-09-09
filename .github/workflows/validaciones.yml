@@ -1,8 +1,11 @@
 name: Validaciones Terraform
 
+# Configuración de cuándo se ejecuta este pipeline
 on:
+  # Se ejecuta cuando se hace push a cualquier rama ('**' significa todas las ramas)
   push:
     branches: ['**']
+  # Se ejecuta cuando se crea o actualiza un pull request hacia cualquier rama
   pull_request:
     branches: ['**']
 
@@ -12,32 +15,43 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Descarga el código del repositorio para poder trabajar con él
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # Instala Terraform en la versión especificada para el runner
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: "1.13.0"
 
+      # Instala TFLint, una herramienta de linting para Terraform
       - name: Setup TFLint
         uses: terraform-linters/setup-tflint@v4
         with:
           tflint_version: v0.59.1
 
+      # Verifica que el formato del código Terraform sea correcto
+      # El flag -check hace que falle si encuentra archivos mal formateados
       - name: Terraform fmt
         run: terraform fmt -check -recursive
 
+      # Ejecuta TFLint para encontrar posibles errores y problemas en el código
+      # --init descarga las reglas necesarias antes de ejecutar el análisis
       - name: TFLint
         run: |
           tflint --init
           tflint
 
+      # Valida la sintaxis y configuración de Terraform
+      # -backend=false evita la inicialización del backend remoto
       - name: Terraform validate
         run: |
           terraform init -backend=false
           terraform validate
 
+      # Ejecuta Checkov para análisis de seguridad y mejores prácticas
+      # Busca vulnerabilidades y configuraciones inseguras
       - name: Checkov
         uses: bridgecrewio/checkov-action@v12.1347.0
         with:
