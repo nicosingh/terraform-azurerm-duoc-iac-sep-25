@@ -1,4 +1,4 @@
-name: Terraform Format Check
+name: Terraform CI
 
 on:
   push:
@@ -7,8 +7,8 @@ on:
     branches: ['**']  # También en pull requests
 
 jobs:
-  terraform-fmt:
-    name: Terraform Format
+  terraform-ci:
+    name: Terraform CI Pipeline
     runs-on: ubuntu-latest
 
     steps:
@@ -20,12 +20,49 @@ jobs:
         with:
           terraform_version: "1.13.0"
 
-      - name: Run Terraform fmt
+      - name: Setup TFLint
+        uses: terraform-linters/setup-tflint@v4
+        with:
+          tflint_version: latest
+
+      - name: Setup Python (for checkov)
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install terraform-docs
+        run: |
+          curl -sSLo ./terraform-docs.tar.gz https://terraform-docs.io/dl/v0.16.0/terraform-docs-v0.16.0-$(uname)-amd64.tar.gz
+          tar -xzf terraform-docs.tar.gz
+          chmod +x terraform-docs
+          sudo mv terraform-docs /usr/local/bin/
+
+      - name: Install Checkov
+        run: pip install checkov
+
+      - name: Terraform fmt
         run: terraform fmt -check -recursive
 
-      - name: Comment on failure
-        if: failure()
+      - name: TFLint
         run: |
-          echo "❌ Terraform formatting check failed!"
-          echo "Please run 'terraform fmt -recursive' locally to fix formatting issues."
-          exit 1
+          tflint --init
+          tflint
+
+      - name: Terraform validate
+        run: |
+          terraform init -backend=false
+          terraform validate
+
+      - name: Terraform docs
+        run: terraform-docs markdown table --output-file README.md --output-mode inject .
+
+      - name: Checkov
+        run: checkov -f . --framework terraform
+
+      - name: Check for changes in docs
+        run: |
+          if ! git diff --exit-code README.md; then
+            echo "❌ Documentation is out of date!"
+            echo "Please run 'terraform-docs markdown table --output-file README.md --output-mode inject .' locally"
+            exit 1
+          fi
