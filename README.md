@@ -16,13 +16,6 @@ Componentes que despliega:
 Casos de uso: Ideal para entornos de desarrollo, staging o producción que requieren una infraestructura básica pero completa en Azure, con la flexibilidad de activar solo los componentes necesarios según el caso de uso específico.
 
 <!-- BEGIN_TF_DOCS -->
-## Requirements
-
-| Name | Version |
-|------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | ~> 1.13.0 |
-| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | ~> 4.41.0 |
-
 ## Providers
 
 No providers.
