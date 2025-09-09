@@ -53,29 +53,14 @@ jobs:
           terraform init -backend=false
           terraform validate
 
-      - name: Terraform docs
-        run: |
-          # Crear una copia temporal del README actual
-          cp README.md /tmp/readme_backup.md
-
-          # Generar la documentación actualizada en el README
-          terraform-docs markdown table --output-file README.md --output-mode inject .
-
-          # Verificar si hubo cambios solo en la sección de terraform-docs
-          if ! diff -q README.md /tmp/readme_backup.md > /dev/null; then
-            echo "❌ Documentation is out of date!"
-            echo "Please run 'terraform-docs markdown table --output-file README.md --output-mode inject .' locally"
-            echo ""
-            echo "Changes needed in terraform-docs section:"
-            diff /tmp/readme_backup.md README.md || true
-            # Restaurar el archivo original
-            mv /tmp/readme_backup.md README.md
-            exit 1
-          else
-            echo "✅ Documentation is up to date!"
-            # Limpiar archivo temporal
-            rm /tmp/readme_backup.md
-          fi
+      - name: Render terraform docs inside the README.md and push changes back to PR branch
+        uses: terraform-docs/gh-actions@v1.4.1
+        with:
+          working-dir: .
+          output-file: README.md
+          output-method: inject
+          git-push: "false"
+          fail-on-diff: "true"
 
       - name: Checkov
         run: checkov -d . -s
