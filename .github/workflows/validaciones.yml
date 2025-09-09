@@ -2,9 +2,9 @@ name: Validaciones Terraform
 
 on:
   push:
-    branches: ['**']  # Se ejecuta en cualquier rama
+    branches: ['**']
   pull_request:
-    branches: ['**']  # También en pull requests
+    branches: ['**']
 
 jobs:
   validaciones-terraform:

@@ -2,9 +2,9 @@ name: Auto-fixes Terraform
 
 on:
   push:
-    branches: ['**']  # Se ejecuta en cualquier rama
+    branches: ['**']
   pull_request:
-    branches: ['**']  # También en pull requests
+    branches: ['**']
 
 jobs:
   auto-fixes-terraform:
@@ -28,7 +28,7 @@ jobs:
       - name: Terraform fmt
         run: terraform fmt -recursive
 
-      - name: Check for changes
+      - name: Terraform fmt - check if anything got changed
         id: verify-changed-files
         run: |
           if [ -n "$(git status --porcelain)" ]; then
@@ -37,7 +37,7 @@ jobs:
             echo "changed=false" >> $GITHUB_OUTPUT
           fi
 
-      - name: Commit and push changes
+      - name: Terraform fmt - push changed files to git
         if: steps.verify-changed-files.outputs.changed == 'true'
         run: |
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -45,3 +45,11 @@ jobs:
           git add -A
           git commit -m "ci: auto-format terraform files"
           git push origin HEAD:${GITHUB_REF#refs/heads/}
+
+      - name: Run terraform-docs and upload any generated changes
+        uses: terraform-docs/gh-actions@v1.4.1
+        with:
+          working-dir: .
+          output-file: README.md
+          output-method: inject
+          git-push: true
