@@ -51,7 +51,9 @@ jobs:
         with:
           working-dir: .
           output-file: README.md
-          fail-on-diff: "true"
+          output-method: inject
+          fail-on-diff: true
+          git-push: false
 
       - name: Checkov
         run: checkov -d . -s
