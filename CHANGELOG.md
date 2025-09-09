@@ -5,6 +5,22 @@ Todos los cambios notables de este proyecto serán documentados en este archivo.
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 y este proyecto se adhiere al [versionado semántico](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2025-09-08
+
+### Agregado
+- **Sistema de Pre-commit**: Integración completa de pre-commit hooks para mejorar la calidad del código
+  - Hook de terraform-fmt para formateo automático de código Terraform
+  - Hook de terraform-docs para documentación automática del README.md
+- **Configuración de Pre-commit**: Archivo `.pre-commit-config.yaml` con hooks configurados para mantener estándares de código
+
+### Corregido
+- **Sintaxis de contenedor de almacenamiento**: Corrección en la sintaxis para el nombre del contenedor en el módulo de cuenta de almacenamiento
+
+### Cambiado
+- **Actualización de hooks de pre-commit**: Mejoras en la configuración de hooks de pre-commit y fuentes de módulos en configuración Terraform
+- **Documentación actualizada**: README.md actualizado automáticamente mediante terraform-docs para reflejar cambios en la configuración
+- **Configuración de .gitignore**: Actualizaciones menores en el archivo .gitignore
+
 ## [1.0.1] - 2025-09-08
 
 ### Cambiado
@@ -57,5 +73,6 @@ y este proyecto se adhiere al [versionado semántico](https://semver.org/spec/v2
 - Máquina Virtual Linux con conectividad de red (opcional)
 - Estrategia consistente de nomenclatura y etiquetado de recursos
 
+[1.0.2]: https://github.com/nicosingh/terraform-azurerm-duoc-iac-sep-25/releases/tag/v1.0.2
 [1.0.1]: https://github.com/nicosingh/terraform-azurerm-duoc-iac-sep-25/releases/tag/v1.0.1
 [1.0.0]: https://github.com/nicosingh/terraform-azurerm-duoc-iac-sep-25/releases/tag/v1.0.0
