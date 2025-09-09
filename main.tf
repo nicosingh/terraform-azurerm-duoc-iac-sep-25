@@ -4,7 +4,7 @@
 # Modulo para crear Red Virtual usando Azure Verified Module (AVM)
 # Crea una red virtual con las subredes especificadas
 module "red_virtual" {
-  source = "git::https://github.com/Azure/terraform-azurerm-avm-res-network-virtualnetwork.git?ref=92d91187f566fc47313e1d54cda366a5acd3be55"
+  source              = "git::https://github.com/Azure/terraform-azurerm-avm-res-network-virtualnetwork.git?ref=92d91187f566fc47313e1d54cda366a5acd3be55"
 
   address_space       = [var.bloque_red]
   location            = var.ubicacion
