@@ -29,7 +29,7 @@ func TestTerraformVariableValidation(t *testing.T) {
 			"nombre_proyecto":       "test",
 			"ambiente":              "dev",
 			"ubicacion":             "ubicacioninvalida", // Esto debería fallar
-			"nombre_grupo_recursos":   "test-rg",
+			"nombre_grupo_recursos": "test-rg",
 		},
 	}
 
