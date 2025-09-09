@@ -54,15 +54,19 @@ jobs:
           terraform validate
 
       - name: Terraform docs
-        run: terraform-docs markdown table --output-file README.md --output-mode inject .
+        run: |
+          # Generar la documentación en un archivo temporal para comparar
+          terraform-docs markdown table --output-mode inject . > /tmp/expected_readme.md
+          if ! diff -q README.md /tmp/expected_readme.md > /dev/null; then
+            echo "❌ Documentation is out of date!"
+            echo "Please run 'terraform-docs markdown table --output-file README.md --output-mode inject .' locally"
+            echo ""
+            echo "Expected changes:"
+            diff README.md /tmp/expected_readme.md || true
+            exit 1
+          else
+            echo "✅ Documentation is up to date!"
+          fi
 
       - name: Checkov
         run: checkov -d . -s
-
-      - name: Check for changes in docs
-        run: |
-          if ! git diff --exit-code README.md; then
-            echo "❌ Documentation is out of date!"
-            echo "Please run 'terraform-docs markdown table --output-file README.md --output-mode inject .' locally"
-            exit 1
-          fi
