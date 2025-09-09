@@ -1,4 +1,4 @@
-# terraform-azurerm-duoc-iac-sep-25
+# Módulo Terraform: Infraestructura Base Azure con AVM
 
 Este es un módulo de Terraform para Azure diseñado para crear una infraestructura básica y completa en Azure. El proyecto utiliza Azure Verified Modules (AVM) para garantizar las mejores prácticas y estándares de la industria.
 
