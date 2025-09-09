@@ -5,6 +5,30 @@ Todos los cambios notables de este proyecto serán documentados en este archivo.
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 y este proyecto se adhiere al [versionado semántico](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.1] - 2025-09-09
+
+### Agregado
+- **Pipeline de CI/CD completo**: Implementación de workflows de GitHub Actions para garantizar calidad del código
+  - **Workflow de Validaciones** (`validaciones.yml`): Ejecuta terraform fmt, TFLint, terraform validate y análisis de seguridad con Checkov
+  - **Workflow de Auto-fixes** (`auto-fixes.yml`): Formateo automático de código y actualización de documentación con terraform-docs
+- **Sección de Integración Continua en README**: Documentación detallada de los pipelines implementados
+- **Guía de Contribuciones**: Proceso completo para contribuir al proyecto con pasos claros y mejores prácticas
+
+### Cambiado
+- **Título del módulo**: Actualizado de "terraform-azurerm-duoc-iac-sep-25" a "Módulo Terraform: Infraestructura Base Azure con AVM" para mayor claridad
+- **Mejora en pipelines de CI/CD**: Múltiples refinamientos en configuración de workflows
+  - Actualización de Checkov a versión v12.1347.0
+  - Fijación de TFLint a versión v0.59.1 para consistencia
+  - Configuración mejorada de permisos y commits automáticos
+  - Triggers consistentes en todas las ramas
+- **Documentación actualizada automáticamente**: README.md mantenido al día mediante terraform-docs automatizado
+
+### Características Técnicas
+- **Automatización completa de calidad**: Todos los cambios pasan por validaciones automáticas de formato, sintaxis, seguridad y documentación
+- **Commits automatizados**: Los pipelines pueden commitear automáticamente correcciones de formato y actualizaciones de documentación
+- **Análisis de seguridad integrado**: Checkov integrado para detectar vulnerabilidades y problemas de configuración
+- **Documentación siempre actualizada**: terraform-docs mantiene la documentación técnica sincronizada automáticamente
+
 ## [1.1.0] - 2025-09-08
 
 ### Agregado
@@ -73,6 +97,7 @@ y este proyecto se adhiere al [versionado semántico](https://semver.org/spec/v2
 - Máquina Virtual Linux con conectividad de red (opcional)
 - Estrategia consistente de nomenclatura y etiquetado de recursos
 
+[1.1.1]: https://github.com/nicosingh/terraform-azurerm-duoc-iac-sep-25/releases/tag/v1.1.1
 [1.0.2]: https://github.com/nicosingh/terraform-azurerm-duoc-iac-sep-25/releases/tag/v1.0.2
 [1.0.1]: https://github.com/nicosingh/terraform-azurerm-duoc-iac-sep-25/releases/tag/v1.0.1
 [1.0.0]: https://github.com/nicosingh/terraform-azurerm-duoc-iac-sep-25/releases/tag/v1.0.0
