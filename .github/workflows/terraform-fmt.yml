@@ -30,6 +30,13 @@ jobs:
         with:
           python-version: '3.x'
 
+      - name: Install terraform-docs
+        run: |
+          curl -sSLo ./terraform-docs.tar.gz https://terraform-docs.io/dl/v0.16.0/terraform-docs-v0.16.0-$(uname)-amd64.tar.gz
+          tar -xzf terraform-docs.tar.gz
+          chmod +x terraform-docs
+          sudo mv terraform-docs /usr/local/bin/
+
       - name: Install Checkov
         run: pip install checkov
 
@@ -47,15 +54,27 @@ jobs:
           terraform validate
 
       - name: Terraform docs
-        uses: terraform-docs/gh-actions@v1.4.1
-        with:
-          working-dir: .
-          output-file: README.md
-          output-method: inject
-          output-format: markdown table
-          indention: 2
-          fail-on-diff: true
-          git-push: false
+        run: |
+          # Crear una copia de seguridad del README actual
+          cp README.md README_backup.md
+
+          # Ejecutar terraform-docs con los mismos parámetros que usas localmente
+          terraform-docs markdown table --indent 2 --output-file README.md --output-mode inject .
+
+          # Verificar si hubo cambios
+          if ! cmp -s README.md README_backup.md; then
+            echo "❌ Documentation is out of date!"
+            echo "Please run 'terraform-docs markdown table --indent 2 --output-file README.md --output-mode inject .' locally"
+            echo ""
+            echo "Differences found:"
+            diff README_backup.md README.md || true
+            exit 1
+          else
+            echo "✅ Documentation is up to date!"
+          fi
+
+          # Limpiar archivo de respaldo
+          rm README_backup.md
 
       - name: Checkov
         run: checkov -d . -s
