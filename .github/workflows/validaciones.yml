@@ -1,4 +1,4 @@
-name: Terraform CI
+name: Validaciones Terraform
 
 on:
   push:
@@ -7,8 +7,8 @@ on:
     branches: ['**']  # También en pull requests
 
 jobs:
-  terraform-ci:
-    name: Terraform CI Pipeline
+  validaciones-terraform:
+    name: Validaciones Terraform
     runs-on: ubuntu-latest
 
     steps:

@@ -1,0 +1,44 @@
+name: Auto-fixes Terraform
+
+on:
+  push:
+    branches: ['**']  # Se ejecuta en cualquier rama
+  pull_request:
+    branches: ['**']  # También en pull requests
+
+jobs:
+  auto-fixes-terraform:
+    name: Auto-fixes Terraform
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.13.0"
+
+      - name: Terraform fmt
+        run: terraform fmt -recursive
+
+      - name: Check for changes
+        id: verify-changed-files
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Commit and push changes
+        if: steps.verify-changed-files.outputs.changed == 'true'
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .
+          git commit -m "ci: terraform fmt"
+          git push
