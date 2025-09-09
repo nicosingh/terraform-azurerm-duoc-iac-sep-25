@@ -34,6 +34,32 @@ Este proyecto incluye dos pipelines de GitHub Actions que garantizan la calidad 
 
 Ambos pipelines utilizan Terraform 1.13.0 y se ejecutan en todas las ramas, asegurando consistencia y calidad en todo el ciclo de desarrollo.
 
+## Pruebas Unitarias
+
+Este proyecto incluye pruebas unitarias automatizadas implementadas con Terratest, una biblioteca de Go diseñada específicamente para probar código de infraestructura como código.
+
+**Cómo ejecutar las pruebas**:
+
+Desde el directorio del proyecto, ejecuta los siguientes comandos:
+
+```bash
+# Navegar al directorio de pruebas
+cd tests
+
+# Descargar dependencias de Go
+go mod tidy
+
+# Ejecutar todas las pruebas
+go test -v
+
+# Ejecutar una prueba específica
+go test -v -run TestTerraformInit
+```
+
+**Requisitos**: Go 1.19+ y acceso a internet para descargar módulos de Terraform durante las pruebas.
+
+Las pruebas validan la funcionalidad del módulo sin crear recursos reales en Azure, enfocándose en la validación de configuración y inicialización.
+
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 

@@ -57,6 +57,40 @@ jobs:
           git commit -m "ci: auto-format terraform files"
           git push origin HEAD:${GITHUB_REF#refs/heads/}
 
+      # Instala Go para poder ejecutar go fmt en los tests
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.25'
+
+      # Formatea automáticamente todos los archivos Go en el directorio tests
+      - name: Go fmt
+        run: |
+          cd tests
+          go fmt ./...
+
+      # Verifica si go fmt cambió algún archivo
+      # Guarda el resultado en una variable de salida para usar en pasos siguientes
+      - name: Go fmt - check if anything got changed
+        id: verify-changed-go-files
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
+          fi
+
+      # Si hubo cambios en el formateo de Go, los commitea automáticamente
+      # Solo se ejecuta si el paso anterior detectó cambios
+      - name: Go fmt - push changed files to git
+        if: steps.verify-changed-go-files.outputs.changed == 'true'
+        run: |
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          git add -A
+          git commit -m "ci: auto-format go test files"
+          git push origin HEAD:${GITHUB_REF#refs/heads/}
+
       # Genera automáticamente documentación usando terraform-docs
       # Actualiza el README.md con la documentación de variables y outputs
       - name: Run terraform-docs and push any generated changes to git

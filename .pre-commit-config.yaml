@@ -1,6 +1,6 @@
 repos:
 -   repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v2.3.0
+    rev: v6.0.0
     hooks:
     - id: end-of-file-fixer
     - id: trailing-whitespace
@@ -13,3 +13,10 @@ repos:
     - id: terraform_validate
     - id: terraform_docs
     - id: terraform_checkov
+- repo: https://github.com/TekWizely/pre-commit-golang
+  rev: v1.0.0-rc.1
+  hooks:
+    - id: go-mod-tidy-repo
+    - id: go-fmt
+      files: tests/.*\.go$
+    - id: go-test-mod
