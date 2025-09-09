@@ -30,6 +30,12 @@ jobs:
         with:
           terraform_version: "1.13.0"
 
+      # Instala Go para poder ejecutar go fmt en los tests
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.25'
+
       # Formatea automáticamente todos los archivos Terraform
       # Sin el flag -check, aplica los cambios directamente
       - name: Terraform fmt
@@ -56,12 +62,6 @@ jobs:
           git add -A
           git commit -m "ci: auto-format terraform files"
           git push origin HEAD:${GITHUB_REF#refs/heads/}
-
-      # Instala Go para poder ejecutar go fmt en los tests
-      - name: Setup Go
-        uses: actions/setup-go@v5
-        with:
-          go-version: '1.25'
 
       # Formatea automáticamente todos los archivos Go en el directorio tests
       - name: Go fmt

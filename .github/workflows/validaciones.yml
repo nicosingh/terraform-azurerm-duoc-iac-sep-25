@@ -31,6 +31,12 @@ jobs:
         with:
           tflint_version: v0.59.1
 
+      # Instala Go para poder ejecutar los tests de Terratest
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.25'
+
       # Verifica que el formato del código Terraform sea correcto
       # El flag -check hace que falle si encuentra archivos mal formateados
       - name: Terraform fmt
@@ -59,12 +65,6 @@ jobs:
           output_file_path: console
           quiet: true
           framework: terraform
-
-      # Instala Go para poder ejecutar los tests de Terratest
-      - name: Setup Go
-        uses: actions/setup-go@v5
-        with:
-          go-version: '1.25'
 
       # Ejecuta los tests unitarios usando Terratest
       # Los tests validan la inicialización de Terraform y validaciones de variables
