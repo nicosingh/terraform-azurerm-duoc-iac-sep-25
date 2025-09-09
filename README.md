@@ -81,3 +81,22 @@ No resources.
 | <a name="output_nombre_cuenta_almacenamiento"></a> [nombre\_cuenta\_almacenamiento](#output\_nombre\_cuenta\_almacenamiento) | Nombre de la Cuenta de Almacenamiento. |
 | <a name="output_nombre_red_virtual"></a> [nombre\_red\_virtual](#output\_nombre\_red\_virtual) | Nombre de la Red Virtual. |
 <!-- END_TF_DOCS -->
+
+## Contribuciones
+
+¡Las contribuciones son bienvenidas y valoradas! Este proyecto está diseñado para ser una solución colaborativa que beneficie a toda la comunidad de desarrolladores trabajando con infraestructura en Azure.
+
+Formas de contribuir:
+- **Reportar problemas**: Si encuentras errores o tienes sugerencias de mejora, abre un issue
+- **Proponer características**: Comparte ideas para nuevas funcionalidades o componentes
+- **Mejorar documentación**: Ayuda a hacer el proyecto más accesible con mejor documentación
+- **Enviar pull requests**: Implementa correcciones, mejoras o nuevas características
+
+Proceso de contribución:
+1. Fork del repositorio
+2. Crea una rama con nombre descriptivo (`feature/nueva-funcionalidad` o `fix/correccion-problema`)
+3. Implementa tus cambios siguiendo las mejores prácticas de Terraform
+4. Asegúrate de que los pipelines de validación pasen exitosamente
+5. Envía un pull request con descripción clara de los cambios
+
+Todos los cambios pasan por un proceso de revisión automática que incluye validaciones de formato, linting, seguridad y documentación, garantizando la calidad y consistencia del módulo.
