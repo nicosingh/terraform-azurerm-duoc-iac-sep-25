@@ -1,0 +1,31 @@
+name: Terraform Format Check
+
+on:
+  push:
+    branches: ['**']  # Se ejecuta en cualquier rama
+  pull_request:
+    branches: ['**']  # También en pull requests
+
+jobs:
+  terraform-fmt:
+    name: Terraform Format
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.13.0"
+
+      - name: Run Terraform fmt
+        run: terraform fmt -check -recursive
+
+      - name: Comment on failure
+        if: failure()
+        run: |
+          echo "❌ Terraform formatting check failed!"
+          echo "Please run 'terraform fmt -recursive' locally to fix formatting issues."
+          exit 1
