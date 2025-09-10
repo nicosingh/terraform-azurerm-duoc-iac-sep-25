@@ -6,7 +6,7 @@
 module "red_virtual" {
   source = "git::https://github.com/Azure/terraform-azurerm-avm-res-network-virtualnetwork.git?ref=92d91187f566fc47313e1d54cda366a5acd3be55"
 
-  address_space         = [var.bloque_red]
+  address_space       = [var.bloque_red]
   location            = var.ubicacion
   name                = "${local.prefijo_recursos}-vnet"
   resource_group_name = var.nombre_grupo_recursos
