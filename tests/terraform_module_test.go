@@ -2,6 +2,7 @@ package test
 
 import (
 	"fmt"
+	"os"
 	"strings"
 	"testing"
 
@@ -120,6 +121,22 @@ func TestTerraformSubredesValidation(t *testing.T) {
 
 // TestTerraformPlanValidVars - Prueba que el módulo planifica correctamente con variables válidas
 func TestTerraformPlanValidVars(t *testing.T) {
+	// Crear un archivo provider temporal con la configuración específica
+	providerConfig := `provider "azurerm" {
+  features {}
+  resource_provider_registrations = "none"
+}
+`
+	err := os.WriteFile("../providers_temp.tf", []byte(providerConfig), 0644)
+	if err != nil {
+		t.Fatalf("Error creando archivo provider temporal: %v", err)
+	}
+
+	// Asegurar que se elimine el archivo al final del test
+	defer func() {
+		os.Remove("../providers_temp.tf")
+	}()
+
 	opciones_terraform := &terraform.Options{
 		TerraformDir: "../",
 		Vars: map[string]interface{}{
@@ -144,14 +161,14 @@ func TestTerraformPlanValidVars(t *testing.T) {
 	terraform.Init(t, opciones_terraform)
 
 	// Intentar hacer plan - debe fallar por el proveedor de Azure pero no por validación de variables
-	_, err := terraform.PlanE(t, opciones_terraform)
+	_, planErr := terraform.PlanE(t, opciones_terraform)
 
 	// Debe haber un error (Azure provider sin configurar)
-	assert.Error(t, err)
+	assert.Error(t, planErr)
 
 	// PERO el error NO debe ser sobre validación de variables - debe ser sobre el proveedor de Azure
 	// Verificar que el error está relacionado con autenticación de Azure (diferentes mensajes en diferentes entornos)
-	errorMsg := err.Error()
+	errorMsg := planErr.Error()
 
 	// Verificar varios mensajes de error de autenticación de Azure
 	azureAuthErrors := []string{
@@ -173,11 +190,11 @@ func TestTerraformPlanValidVars(t *testing.T) {
 
 	assert.True(t, azureAuthErrorFound,
 		"El error debería estar relacionado con la autenticación de Azure, no con la validación de variables. Se obtuvo: %s", errorMsg) // Verificar que NO hay errores de validación de variables
-	assert.NotContains(t, err.Error(), "Invalid value for variable")
-	assert.NotContains(t, err.Error(), "La ubicación debe ser una región válida de Azure")
-	assert.NotContains(t, err.Error(), "El bloque_red debe ser un bloque CIDR válido")
-	assert.NotContains(t, err.Error(), "El nombre_grupo_recursos no puede estar vacío")
-	assert.NotContains(t, err.Error(), "Se debe definir al menos una subred")
+	assert.NotContains(t, planErr.Error(), "Invalid value for variable")
+	assert.NotContains(t, planErr.Error(), "La ubicación debe ser una región válida de Azure")
+	assert.NotContains(t, planErr.Error(), "El bloque_red debe ser un bloque CIDR válido")
+	assert.NotContains(t, planErr.Error(), "El nombre_grupo_recursos no puede estar vacío")
+	assert.NotContains(t, planErr.Error(), "Se debe definir al menos una subred")
 }
 
 // TestTerraformSyntaxValidation - Prueba validación de sintaxis básica
