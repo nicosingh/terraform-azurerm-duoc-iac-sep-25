@@ -2,6 +2,7 @@ package test
 
 import (
 	"fmt"
+	"strings"
 	"testing"
 
 	"github.com/gruntwork-io/terratest/modules/terraform"
@@ -151,17 +152,27 @@ func TestTerraformPlanValidVars(t *testing.T) {
 	// PERO el error NO debe ser sobre validación de variables - debe ser sobre el proveedor de Azure
 	// Verificar que el error está relacionado con autenticación de Azure (diferentes mensajes en diferentes entornos)
 	errorMsg := err.Error()
-	azureAuthErrorFound := assert.Contains(t, errorMsg, "building account: unable to configure ResourceManagerAccount") ||
-		assert.Contains(t, errorMsg, "unable to build authorizer for Resource Manager API") ||
-		assert.Contains(t, errorMsg, "Please run 'az login' to setup account") ||
-		assert.Contains(t, errorMsg, "tenant ID was not specified") ||
-		assert.Contains(t, errorMsg, "subscription ID could not be determined") ||
-		assert.Contains(t, errorMsg, "could not configure AzureCli Authorizer")
+
+	// Verificar varios mensajes de error de autenticación de Azure
+	azureAuthErrors := []string{
+		"building account: unable to configure ResourceManagerAccount",
+		"unable to build authorizer for Resource Manager API",
+		"Please run 'az login' to setup account",
+		"tenant ID was not specified",
+		"subscription ID could not be determined",
+		"could not configure AzureCli Authorizer",
+	}
+
+	azureAuthErrorFound := false
+	for _, authError := range azureAuthErrors {
+		if strings.Contains(errorMsg, authError) {
+			azureAuthErrorFound = true
+			break
+		}
+	}
 
 	assert.True(t, azureAuthErrorFound,
-		"Error should be related to Azure authentication, not variable validation. Got: %s", errorMsg)
-
-	// Verificar que NO hay errores de validación de variables
+		"El error debería estar relacionado con la autenticación de Azure, no con la validación de variables. Se obtuvo: %s", errorMsg) // Verificar que NO hay errores de validación de variables
 	assert.NotContains(t, err.Error(), "Invalid value for variable")
 	assert.NotContains(t, err.Error(), "La ubicación debe ser una región válida de Azure")
 	assert.NotContains(t, err.Error(), "El bloque_red debe ser un bloque CIDR válido")
@@ -194,7 +205,7 @@ func TestModuleFilesExist(t *testing.T) {
 	}
 
 	for _, file := range requiredFiles {
-		t.Run(fmt.Sprintf("File %s exists", file), func(t *testing.T) {
+		t.Run(fmt.Sprintf("Archivo %s existe", file), func(t *testing.T) {
 			opciones_terraform := &terraform.Options{
 				TerraformDir: "../",
 			}
