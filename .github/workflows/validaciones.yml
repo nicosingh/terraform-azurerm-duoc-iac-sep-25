@@ -36,6 +36,7 @@ jobs:
         uses: actions/setup-go@v5
         with:
           go-version: '1.25'
+          cache-dependency-path: tests/go.sum
 
       # Verifica que el formato del código Terraform sea correcto
       # El flag -check hace que falle si encuentra archivos mal formateados
