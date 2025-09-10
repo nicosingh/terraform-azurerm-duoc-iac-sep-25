@@ -5,6 +5,37 @@ Todos los cambios notables de este proyecto serán documentados en este archivo.
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 y este proyecto se adhiere al [versionado semántico](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] - 2025-09-09
+
+### Agregado
+- **Suite completa de pruebas automatizadas**: Implementación de Terratest para validación integral del módulo
+  - **Pruebas de inicialización**: Validación de `terraform init` y configuración básica
+  - **Pruebas de validación de variables**: Verificación de todas las reglas de validación de inputs
+  - **Pruebas de sintaxis**: Validación de sintaxis de Terraform usando `terraform validate`
+  - **Pruebas de estructura**: Verificación de existencia de archivos esenciales del módulo
+  - **Prueba de planificación**: Validación de `terraform plan` con variables válidas
+- **Gestión completa de dependencias Go**: Configuración de módulos Go con `go.mod` y `go.sum`
+- **Mejoras en CI/CD workflows**: Integración de Go y Terratest en pipelines automatizados
+  - Configuración de caché de dependencias Go para mejor rendimiento
+  - Integración de pruebas automatizadas en proceso de validación
+
+### Cambiado
+- **Migración completa de testing**: Transición de `terraform_basic_test.go` a suite completa en `terraform_module_test.go`
+- **Mejoras en validación de errores**: Refinamiento de pruebas de autenticación Azure con múltiples escenarios
+- **Actualización de configuración de pre-commit**: Inclusión de formateo automático para archivos Go
+- **Optimizaciones en workflows**: Mejoras de rendimiento con cache de dependencias y configuración refinada
+
+### Corregido
+- **Configuración de Checkov**: Eliminación de parámetro `output_file_path` deprecado en workflow de validaciones
+- **Manejo robusto de errores de autenticación Azure**: Implementación de validación mejorada para diferentes tipos de errores de autenticación en entornos de CI/CD
+
+### Características Técnicas
+- **Testing robusto**: 8 pruebas automatizadas cubriendo todos los aspectos críticos del módulo
+- **Validación integral**: Pruebas de variables, sintaxis, estructura y planificación
+- **Gestión de errores avanzada**: Detección inteligente de errores de autenticación vs. errores de configuración
+- **Compatibilidad mejorada**: Soporte para múltiples escenarios de despliegue y entornos
+- **Integración continua completa**: Pruebas automatizadas integradas en todos los workflows
+
 ## [1.1.1] - 2025-09-09
 
 ### Agregado
@@ -97,6 +128,7 @@ y este proyecto se adhiere al [versionado semántico](https://semver.org/spec/v2
 - Máquina Virtual Linux con conectividad de red (opcional)
 - Estrategia consistente de nomenclatura y etiquetado de recursos
 
+[1.2.0]: https://github.com/nicosingh/terraform-azurerm-duoc-iac-sep-25/releases/tag/v1.2.0
 [1.1.1]: https://github.com/nicosingh/terraform-azurerm-duoc-iac-sep-25/releases/tag/v1.1.1
 [1.0.2]: https://github.com/nicosingh/terraform-azurerm-duoc-iac-sep-25/releases/tag/v1.0.2
 [1.0.1]: https://github.com/nicosingh/terraform-azurerm-duoc-iac-sep-25/releases/tag/v1.0.1
