@@ -97,15 +97,6 @@ No resources.
 | <a name="input_subredes"></a> [subredes](#input\_subredes) | Configuración de subredes para la red virtual. | <pre>map(object({<br/>    name             = string<br/>    address_prefixes = list(string)<br/>  }))</pre> | <pre>{<br/>  "subred1": {<br/>    "address_prefixes": [<br/>      "10.0.0.0/24"<br/>    ],<br/>    "name": "subred1"<br/>  },<br/>  "subred2": {<br/>    "address_prefixes": [<br/>      "10.0.1.0/24"<br/>    ],<br/>    "name": "subred2"<br/>  }<br/>}</pre> | no |
 | <a name="input_ubicacion"></a> [ubicacion](#input\_ubicacion) | Región de Azure donde se crearán los recursos. | `string` | n/a | yes |
 
-## Outputs
-
-| Name | Description |
-|------|-------------|
-| <a name="output_dns_maquina_virtual"></a> [dns\_maquina\_virtual](#output\_dns\_maquina\_virtual) | DNS de la Máquina Virtual. |
-| <a name="output_id_red_virtual"></a> [id\_red\_virtual](#output\_id\_red\_virtual) | ID de la Red Virtual. |
-| <a name="output_ip_privada_maquina_virtual"></a> [ip\_privada\_maquina\_virtual](#output\_ip\_privada\_maquina\_virtual) | Dirección IP privada de la Máquina Virtual. |
-| <a name="output_nombre_cuenta_almacenamiento"></a> [nombre\_cuenta\_almacenamiento](#output\_nombre\_cuenta\_almacenamiento) | Nombre de la Cuenta de Almacenamiento. |
-| <a name="output_nombre_red_virtual"></a> [nombre\_red\_virtual](#output\_nombre\_red\_virtual) | Nombre de la Red Virtual. |
 <!-- END_TF_DOCS -->
 
 ## Contribuciones
