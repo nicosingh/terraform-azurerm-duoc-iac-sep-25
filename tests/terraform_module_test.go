@@ -149,7 +149,17 @@ func TestTerraformPlanValidVars(t *testing.T) {
 	assert.Error(t, err)
 
 	// PERO el error NO debe ser sobre validación de variables - debe ser sobre el proveedor de Azure
-	assert.Contains(t, err.Error(), "building account: unable to configure ResourceManagerAccount")
+	// Verificar que el error está relacionado con autenticación de Azure (diferentes mensajes en diferentes entornos)
+	errorMsg := err.Error()
+	azureAuthErrorFound := assert.Contains(t, errorMsg, "building account: unable to configure ResourceManagerAccount") ||
+		assert.Contains(t, errorMsg, "unable to build authorizer for Resource Manager API") ||
+		assert.Contains(t, errorMsg, "Please run 'az login' to setup account") ||
+		assert.Contains(t, errorMsg, "tenant ID was not specified") ||
+		assert.Contains(t, errorMsg, "subscription ID could not be determined") ||
+		assert.Contains(t, errorMsg, "could not configure AzureCli Authorizer")
+
+	assert.True(t, azureAuthErrorFound,
+		"Error should be related to Azure authentication, not variable validation. Got: %s", errorMsg)
 
 	// Verificar que NO hay errores de validación de variables
 	assert.NotContains(t, err.Error(), "Invalid value for variable")
