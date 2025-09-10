@@ -5,6 +5,20 @@ Todos los cambios notables de este proyecto serán documentados en este archivo.
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 y este proyecto se adhiere al [versionado semántico](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.1] - 2025-09-10
+
+### Corregido
+- **Configuración de proveedores del módulo**: Eliminación del archivo `providers.tf` innecesario que causaba conflictos en la estructura del módulo
+- **Mejoras en pruebas automatizadas**: Refinamiento del test `TestTerraformPlanValidVars` con configuración temporal específica del proveedor Azure
+  - Implementación de archivo provider temporal que se crea y elimina automáticamente durante la ejecución del test
+  - Mejora en la detección de errores de autenticación vs errores de configuración de variables
+  - Adición de import `os` faltante en el archivo de pruebas
+
+### Técnico
+- **Optimización de estructura del módulo**: Eliminación de configuración de provider redundante para permitir mayor flexibilidad en el uso del módulo
+- **Robustez en testing**: El test de planificación ahora maneja correctamente la configuración del proveedor Azure de forma aislada
+- **Limpieza automática**: Los archivos temporales creados durante las pruebas se eliminan automáticamente
+
 ## [1.2.0] - 2025-09-09
 
 ### Agregado
@@ -128,6 +142,7 @@ y este proyecto se adhiere al [versionado semántico](https://semver.org/spec/v2
 - Máquina Virtual Linux con conectividad de red (opcional)
 - Estrategia consistente de nomenclatura y etiquetado de recursos
 
+[1.2.1]: https://github.com/nicosingh/terraform-azurerm-duoc-iac-sep-25/releases/tag/v1.2.1
 [1.2.0]: https://github.com/nicosingh/terraform-azurerm-duoc-iac-sep-25/releases/tag/v1.2.0
 [1.1.1]: https://github.com/nicosingh/terraform-azurerm-duoc-iac-sep-25/releases/tag/v1.1.1
 [1.0.2]: https://github.com/nicosingh/terraform-azurerm-duoc-iac-sep-25/releases/tag/v1.0.2
